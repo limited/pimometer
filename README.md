@@ -4,10 +4,11 @@
 ### Goal 
 PCB to report temperature from 4 k-type thermocouples over wireless, for viewing on a smartphone. 
 * _Form Factor_: Raspberry Pi Shield
-* _Power Source_: Initially battery powered with on/off switch. Future: solar or thermoelectric generator(TEG) using heat from oven.
+* _Power Source_: Initially battery powered with on/off switch. 
+** Future: solar or thermoelectric generator(TEG) using heat from oven.
 * _Thermocouple Measurement_: MAX31855 [Datasheet](http://datasheets.maximintegrated.com/en/ds/MAX31855.pdf) via SPI in an SO-8 package
-* _Wireless Connection_:WiFi Dongle
-* _Configuration/Display_:via SD Card 
+* _Wireless Connection_: WiFi Dongle
+* _Configuration/Display_: via SD Card 
 ** LEDs for display- 1 LED for wireless connection
 * Smartphone Display: Ideally would be accessible across multiple smartphone platforms, so no native app. 
 ** Better to have a webserver run on the device itself, i.e. Flask
