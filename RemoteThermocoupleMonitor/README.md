@@ -1,6 +1,3 @@
-pimometer
-=========
-=======
 ## Remote Thermocouple Monitor
 
 

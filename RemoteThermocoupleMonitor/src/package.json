@@ -1,0 +1,17 @@
+{
+  "name": "PiMometer",
+  "version": "0.0.1",
+  "description": "Remote Thermocouple Monitor for Raspberry Pi with PiMometer hardware",
+  "main": "pimometer.js",
+  "dependencies": {
+    "socket.io": "~0.9.16",
+    "async": "~0.2.9",
+    "websocket": "~1.0.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Friedrich",
+  "license": "BSD-2-Clause"
+}
