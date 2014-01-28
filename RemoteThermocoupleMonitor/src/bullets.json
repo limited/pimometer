@@ -1,7 +1,0 @@
-[
-  {"title":"Channel 1","subtitle":"Oven 1, Rear","ranges":[900],"measures":[0,0],"markers":[375]},
-  {"title":"Channel 2","subtitle":"Oven 1, Front","ranges":[900],"measures":[0,0],"markers":[0]},
-  {"title":"Channel 3","subtitle":"Oven 1, Mid","ranges":[900],"measures":[0,0],"markers":[0]},
-  {"title":"Channel 4","subtitle":"Oven 2, Top","ranges":[900],"measures":[0,0],"markers":[0]}
-]
-
