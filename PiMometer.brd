@@ -122,8 +122,8 @@
 <wire x1="62.535" y1="0" x2="62.535" y2="41.9" width="0" layer="20"/>
 <wire x1="62.535" y1="41.9" x2="0" y2="41.9" width="0" layer="20"/>
 <wire x1="0" y1="41.9" x2="0" y2="0" width="0" layer="20"/>
-<text x="8.89" y="6.985" size="1.778" layer="16" font="vector" ratio="18" rot="SMR90">11-30-13</text>
-<text x="3.175" y="10.795" size="1.778" layer="25" rot="R90">PiMometer v1</text>
+<text x="8.89" y="6.985" size="1.778" layer="16" font="vector" ratio="18" rot="SMR90">12-12-13</text>
+<text x="3.175" y="10.795" size="1.778" layer="25" rot="R90">PiMometer v1.1</text>
 <text x="5.08" y="10.795" size="1.27" layer="25" rot="R90">ericfriedri.ch</text>
 <text x="12.065" y="31.75" size="1.27" layer="25">TC4</text>
 <text x="22.225" y="31.75" size="1.27" layer="25">TC3</text>
@@ -764,7 +764,7 @@ Please make sure your boards conform to these design rules.</description>
 <element name="C6" library="SparkFun-Capacitors" package="1210" value="10uF" x="12.065" y="22.86" rot="R270">
 <attribute name="PROD_ID" value="CAP-09824" x="12.065" y="22.86" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
-<element name="U$1" library="ohw-logo" package="OSHW_FILLX150_NOTEXT" value="" x="6.35" y="26.67" rot="R90"/>
+<element name="U$1" library="ohw-logo" package="OSHW_FILLX150_NOTEXT" value="" x="8.89" y="22.86" rot="R90"/>
 <element name="STANDOFF1" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="5.08" y="36.83"/>
 <element name="STANDOFF2" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="57.15" y="5.08"/>
 <element name="STANDOFF4" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="3.81" y="5.08"/>
@@ -846,7 +846,8 @@ Please make sure your boards conform to these design rules.</description>
 <contactref element="IC1" pad="4"/>
 <contactref element="IC2" pad="4"/>
 <wire x1="45.6184" y1="25.9334" x2="45.72" y2="25.9334" width="0" layer="19" extent="1-1"/>
-<wire x1="35.56" y1="25.9334" x2="34.925" y2="25.2984" width="0" layer="19" extent="1-1"/>
+<wire x1="34.925" y1="25.2984" x2="35.56" y2="25.2984" width="0.4064" layer="1"/>
+<wire x1="35.56" y1="25.2984" x2="35.56" y2="25.9334" width="0.4064" layer="1"/>
 </signal>
 <signal name="GND">
 <contactref element="GPIO1" pad="9"/>
