@@ -1,4 +1,4 @@
-var config = {numChannels: 4, 
+var config = {numChannels: 1,//4, 
 	      historySize: 30,
 	      avgSize: 10,
 	      updatePeriod: 1000};
@@ -10,7 +10,7 @@ function buildState() {
     state.channels = [];
     for (i = 0; i < config.numChannels; i++) {
 	state.channels.push({title: title[i],
-			     current: 250, // XXX_EF Fake starting temp
+			     current: 0.0,
 			     min: 1000000,
 			     max: 0, 
 			     movingAvg: 0,
@@ -19,6 +19,7 @@ function buildState() {
     return state;
 }
 var tempState = buildState();
+console.log(tempState);
 
 function updateStats(channel, current) {
     channel.current = current;
@@ -43,10 +44,13 @@ function updateStats(channel, current) {
  }
 
 setInterval(function() {
-    for (var i = 0; i < config.numChannels; i++) {
-	var current = tempState.channels[i].current;
-	current += (Math.random()*3.0 - 1.0);
-	updateStats(tempState.channels[i], current);
+    for (var i = 0; i < tempState.channels.length; i++) {
+        var spawn = require('child_process').spawn,
+            tcRead = spawn("sudo", ["./ThermocoupleRead.py"]);
+        tcRead.stdout.on('data', function(data) {
+          var currentTemp = parseFloat(data);
+          updateStats(tempState.channels[0], currentTemp);//XXX_EF Set correct channel number
+        });
     }
 }, config.updatePeriod);
 

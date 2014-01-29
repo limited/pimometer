@@ -30,6 +30,8 @@ PCB to report temperature from 4 k-type thermocouples over wireless, for viewing
 #### Software Design
 * When Flask receives request for current temperatures, 
 
+* node.js pi-gpio requires gpio-admin:
+
 
 
 #### Cost Comparison
