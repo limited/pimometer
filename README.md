@@ -18,19 +18,35 @@ PCB to report temperature from 4 k-type thermocouples over wireless, for viewing
 
 ### Design
 #### Raspberry Pi pinout
-* Clock: 17
-* MISO: 7
-* MOSI: 8 
-* CS1: 23
-* CS2: 24
-* CS3: 25
-* CS4: 27
+* Clock: 11 
+* MISO: 9
+* CS1: 18 
+* CS2: 23
+* CS3: 24
+* CS4: 25
 * Also need +3.3V and ground available to shield
  
 #### Software Design
 * When Flask receives request for current temperatures, 
+o
 
-* node.js pi-gpio requires gpio-admin:
+
+#### Service installation
+chmod 755 nodejs
+sudo cp nodejs /etc/init.d
+sudo update-rc.d nodejs defaults
+B
+B
+B
+B
+B
+B
+B
+B
+B
+B
+
+
 
 
 

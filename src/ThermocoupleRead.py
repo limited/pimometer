@@ -10,38 +10,40 @@ import RPi.GPIO as GPIO
 import time
 import sys
 
-MISO = 18
-CS = 23
-CLK = 24
+MISO = 9 
+CS_ARRAY = [18, 23, 24, 25]
+CLK = 11 
 
 def setupSpiPins():
     ''' Set pins as an output except MISO (Master Input, Slave Output)'''
     GPIO.setup(CLK, GPIO.OUT)
     GPIO.setup(MISO, GPIO.IN)
-    GPIO.setup(CS, GPIO.OUT)
+    for cs in CS_ARRAY:
+      GPIO.setup(cs, GPIO.OUT)
     
     GPIO.output(CLK, GPIO.LOW)
-    GPIO.output(CS, GPIO.HIGH)
+    for cs in CS_ARRAY:
+      GPIO.output(cs, GPIO.HIGH)
      
 
-def readTemp():
+def readTemp(miso):
     
-    tcValue = recvBits(32)
+    tcValue = recvBits(miso, 32)
     #print "TC value: %x" % (tcValue)
 
     if (tcValue & 0x8):
-      print "ERROR: Reserved bit 3 is 1" 
+      return 0 #"ERROR: Reserved bit 3 is 1" 
 
     if (tcValue & 0x20000):
-      print "ERROR: Reserved bit 17 is 1" 
+      return 0 #"ERROR: Reserved bit 17 is 1" 
 
     if (tcValue & 0x10000):
       if (tcValue & 0x1):
-        print "ERROR: Open Circuit"
+        return 0 #"ERROR: Open Circuit"
       if (tcValue & 0x2):
-        print "ERROR: Short to GND"
+        return 0 #"ERROR: Short to GND"
       if (tcValue & 0x4):
-        print "ERROR: Short to Vcc"
+        return 0 #"ERROR: Short to Vcc"
 
     internal = (tcValue >> 4) & 0xFFF
     #print "Internal: %fC" % (internal*.0625)
@@ -57,12 +59,12 @@ def readTemp():
     temp = temp * 0.25
     return temp
     
-def recvBits(numBits):
+def recvBits(cs, numBits):
     '''Receives arbitrary number of bits'''
     retVal = 0
 
     # Start the read with chip select low
-    GPIO.output(CS, GPIO.LOW)
+    GPIO.output(cs, GPIO.LOW)
     
     for bit in range(numBits):
         # Pulse clock pin 
@@ -82,7 +84,7 @@ def recvBits(numBits):
         time.sleep(.001)
     
     # Set chip select high to end the read
-    GPIO.output(CS, GPIO.HIGH)
+    GPIO.output(cs, GPIO.HIGH)
 
     return (retVal)
     
@@ -93,9 +95,10 @@ if __name__ == '__main__':
         #print "Started"
         setupSpiPins()
         #print "Setup"
-        val = readTemp()
-        print str(val)
-        #print "Temp: ", str(val*9.0/5.0+32),"F"
+        for cs in CS_ARRAY:
+          val = readTemp(cs)
+          print str(val)
+          #print "Temp: ", str(val*9.0/5.0+32),"F"
         GPIO.cleanup()
         sys.exit(0)
     except KeyboardInterrupt:

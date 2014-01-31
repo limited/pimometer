@@ -1,4 +1,4 @@
-var config = {numChannels: 1,//4, 
+var config = {numChannels: 4, 
 	      historySize: 30,
 	      avgSize: 10,
 	      updatePeriod: 1000};
@@ -14,12 +14,12 @@ function buildState() {
 			     min: 1000000,
 			     max: 0, 
 			     movingAvg: 0,
-			     range: []});
+			     range: [], 
+                             error: ""});
     }
     return state;
 }
 var tempState = buildState();
-console.log(tempState);
 
 function updateStats(channel, current) {
     channel.current = current;
@@ -41,17 +41,19 @@ function updateStats(channel, current) {
     var avgWindow = channel.range.slice(-1 * config.avgSize);
     channel.movingAvg = avgWindow.reduce(function(a, b) {
 	return a + b; }, 0) / avgWindow.length;
+    //console.log(channel);
  }
 
 setInterval(function() {
-    for (var i = 0; i < tempState.channels.length; i++) {
-        var spawn = require('child_process').spawn,
-            tcRead = spawn("sudo", ["./ThermocoupleRead.py"]);
-        tcRead.stdout.on('data', function(data) {
-          var currentTemp = parseFloat(data);
-          updateStats(tempState.channels[0], currentTemp);//XXX_EF Set correct channel number
-        });
-    }
+    var spawn = require('child_process').spawn,
+        tcRead = spawn("sudo", ["./ThermocoupleRead.py"]);
+    tcRead.stdout.on('data', function(data) {
+      var dataArray = data.toString().split("\n");
+      dataArray.slice(0,4).map(function(currentValue, index) {
+        var temp = parseFloat(currentValue); 
+	updateStats(tempState.channels[index], currentTemp);
+      });
+    });
 }, config.updatePeriod);
 
 
