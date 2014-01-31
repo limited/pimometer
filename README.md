@@ -35,18 +35,10 @@ o
 chmod 755 nodejs
 sudo cp nodejs /etc/init.d
 sudo update-rc.d nodejs defaults
-B
-B
-B
-B
-B
-B
-B
-B
-B
-B
 
-
+### Avahi Installation
+sudo apt-get install avahi-daemon
+sudo insserv avahi-daemon
 
 
 
