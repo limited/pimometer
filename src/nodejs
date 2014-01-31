@@ -2,7 +2,7 @@
 
 NODE=/usr/bin/node
 SERVER_JS_FILE=/home/pi/pimometer/src/pimometer.js
-USER=pi
+USER=root
 OUT=/home/pi/nodejs.log
 
 case "$1" in

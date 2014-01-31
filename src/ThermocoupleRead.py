@@ -97,7 +97,7 @@ if __name__ == '__main__':
         #print "Setup"
         for cs in CS_ARRAY:
           val = readTemp(cs)
-          print str(val)
+          print str(val*9.0/5.0+32)
           #print "Temp: ", str(val*9.0/5.0+32),"F"
         GPIO.cleanup()
         sys.exit(0)

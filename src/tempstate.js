@@ -51,7 +51,7 @@ setInterval(function() {
       var dataArray = data.toString().split("\n");
       dataArray.slice(0,4).map(function(currentValue, index) {
         var temp = parseFloat(currentValue); 
-	updateStats(tempState.channels[index], currentTemp);
+	updateStats(tempState.channels[index], temp);
       });
     });
 }, config.updatePeriod);
