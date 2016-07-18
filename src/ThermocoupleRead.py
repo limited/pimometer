@@ -7,6 +7,7 @@
 #     CS => 24 
 
 import RPi.GPIO as GPIO
+import math
 import time
 import sys
 
@@ -87,6 +88,78 @@ def recvBits(cs, numBits):
     GPIO.output(cs, GPIO.HIGH)
 
     return (retVal)
+
+def convertTypeJToTypeK(temp):
+    ''' Output temperature based on a Type J Thermocouple. 
+
+        Theory: 
+          The output temperature for a thermocouple is based on a voltage
+          difference across the device. To use a Type J Thermocouple with the
+          MAX31855K measurement sensor, do the following:
+           1) Use the ITS-90 Type-K Direct Polynomial to find the 
+              thermoelectric voltage from the reported temperature
+           2) Use the ITS-90 Type-J Inverse Polynomial to find the
+              temperature from the computed thermoelectric voltage
+          NB: If polynomials are too hard to compute, use a lookup table 
+              instead.
+    '''
+    volt = tcKTempTouV(temp)
+    new_temp = tcuVToJTemp(volt)
+
+def tcKTempTouV(temp):
+    ''' Return thermoelectic voltage for a temperature'''
+    # Type-K Coefficients for 0-1372C
+    direct_coeff = [-1.7600413686e1,
+                     3.8921204975e1,
+                     1.8558770032e-2,
+                    -9.9457592874e-5,
+                     3.1840945719e-7,
+                    -5.6072844889e-10,
+                     5.6075059059e-13,
+                    -3.2020720003e-16,
+                     9.7151147152e-20,
+                    -1.210472127e-23]
+    a_0 =  1.185976e2
+    a_1 = -1.183432e-4
+
+    e = 0
+    for (i, coeff) in enumerate(direct_coeff):
+        e += coeff * pow(temp, i)
+
+    exp = a_1 * pow(temp - 126.9686, 2)
+    e += a_0 * pow(math.e, exp)
+    return e
+
+def tcuVToJTemp(volt):
+    ''' Return temp across a J-Type thermocouple'''
+    # high is 760-1200C, mid is 0-760C
+    indirect_coeff={'high': [-3.11358187e3,
+                              3.00543684e-1,
+                             -9.94773230e-6,
+                              1.70276630e-10,
+                             -1.43033468e-15,
+                              4.73886084e-21],
+                    'mid': [0,
+                            1.978425e-2,
+                            -2.001204e-7,
+                            1.036969e-11,
+                            -2.549687e-16,
+                            3.585153e-21,
+                            -5.344285e-26,
+                            5.099890e-31]}
+    if volt >= 0 and volt < 42919:
+        mode = 'mid'
+    elif volt >= 42919:
+        mode ='high'
+
+    temp = 0
+    for (i, coeff) in enumerate(indirect_coeff[mode]):
+        temp += coeff * pow(volt, i)
+        
+    return temp
+
+def convertCToF(temp):
+    return (temp*9.0/5.0+32)
     
     
 if __name__ == '__main__':
@@ -97,7 +170,8 @@ if __name__ == '__main__':
         #print "Setup"
         for cs in CS_ARRAY:
           val = readTemp(cs)
-          print str(val*9.0/5.0+32)
+          #val = convertTypeJToTypeK(val)
+          print str(convertCToF(val))
           #print "Temp: ", str(val*9.0/5.0+32),"F"
         GPIO.cleanup()
         sys.exit(0)
